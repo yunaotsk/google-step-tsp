@@ -9,7 +9,7 @@ def solve(cities):
     def distance(city1, city2):
         return ((city1[0] - city2[0]) ** 2 + (city1[1] - city2[1]) ** 2) ** 0.5
     visited = [0]
-    for _ in range(1, len(cities)):
+    for i in range(1, len(cities)):
         last_city = visited[-1]
         next_city = None
         min_dist = float('inf')
@@ -21,6 +21,12 @@ def solve(cities):
                 min_dist = dist
                 next_city = idx
         visited.append(next_city)
+    for i in range(len(visited) - 2):
+        for j in range(i + 2, len(visited) - 1):
+            old_dist = distance(cities[visited[i]], cities[visited[i + 1]]) + distance(cities[visited[j]], cities[visited[j + 1]])
+            new_dist = distance(cities[visited[i]], cities[visited[j]]) + distance(cities[visited[i + 1]], cities[visited[j + 1]])
+            if new_dist < old_dist:
+                visited[i + 1 : j + 1] = reversed(visited[i + 1 : j + 1])
     return visited
 
 
