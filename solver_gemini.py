@@ -4,10 +4,10 @@ from common import print_tour, read_input
 
 random.seed(0)
 
-def distance(a, b):
+def distance(a, b): # Calculate the Euclidean distance between two points
     return math.hypot(a[0] - b[0], a[1] - b[1])
 
-def tour_cost(tour, dist):
+def tour_cost(tour, dist): # Calculate the total cost of a tour
     n = len(tour)
     return sum(dist[tour[i]][tour[(i + 1) % n]] for i in range(n))
 
@@ -44,7 +44,7 @@ def run_2opt(tour, dist, neighbors):
 
                     improved = True
 
-def build_tour(start, order, top_k):
+def build_tour(start, order, top_k): # Build a tour starting from a given city
     n = len(order)
     unvisited = set(range(n))
     unvisited.remove(start)
@@ -55,7 +55,7 @@ def build_tour(start, order, top_k):
     while unvisited:
         candidates = []
 
-        for city in order[current]:
+        for city in order[current]: 
             if city in unvisited:
                 candidates.append(city)
 
@@ -78,6 +78,7 @@ def solve(cities):
         for i in range(n)
     ]
 
+    # for every city i, this stores all cities sorted by distance from i
     order = [
         sorted(range(n), key=lambda j: dist[i][j])
         for i in range(n)
@@ -91,6 +92,7 @@ def solve(cities):
     best_tour = None
     best_cost = float("inf")
 
+    #starting from city 0 might give a bad route, but starting from  a different city might give a better one
     starts = list(range(min(n, 100)))
 
     if n > 100:
